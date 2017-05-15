@@ -2,6 +2,9 @@
 	"name": "lifter",
 	"version": "1.0.0",
 	"main": "app.js",
+	"scripts": {
+	    "start": "node app.js"
+	},
 	"repository": {
 	  "type": "git",
 	  "url": "http://github.com/frotunato/lifter.git"
