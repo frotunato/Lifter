@@ -1,0 +1,14 @@
+{
+	"name": "lifter",
+	"version": "1.0.0",
+	"main": "app.js",
+	"repository": {
+	  "type": "git",
+	  "url": "http://github.com/frotunato/lifter.git"
+	},
+	"dependencies": {
+		"express": "latest",
+		"body-parser": "latest",
+		"compression": "latest"
+	}
+}
