@@ -1,0 +1,95 @@
+html
+	head
+		title dis gon b gud
+		link(rel="shortcut icon" type="image/png" href="/fav/favicon.png")
+		link(rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous")
+		link(href='/style.css', rel='stylesheet')
+		script(src="c3.min.js")
+		script(src="/socket.io/socket.io.js")
+		script(src="/check.js")
+	body(class="")
+		div(class="pure-u-2-24")
+		div(class="pure-u-20-24")
+			div(class="pure-g")
+				a(href="/chart" class="pure-u-21-24 pure-button pure-button-primary nav-top") Gráficos
+				input(id="newOwner" type="text" placeholder="Nuevo propietario" class="pure-u-2-24 nav-top")
+				button(class="pure-u-1-24 nav-top" onclick="addOwner()") Añadir
+			- var getColor = function(o){var e="";return"n/a"===o||0===o?e="off":o<200?e="verylow":o>=200&&o<300?e="low":o>=300&&o<400?e="medium":o>=400&&o<450?e="good":o>=450&&o<500?e="verygood":o>=500&&(e="excelent"),e};
+			each owner, index in cache
+				div
+					table(class="instances pure-table pure-table-bordered")
+						thead
+							tr
+								td(colspan="12" class="owner").
+									#{index}
+							tr(class="header-row")
+								td(colspan="4") INFORMACION
+								td(colspan="4") SISTEMA
+								td(colspan="4") HASHRATE
+							tr(class="header-row")
+								td Instancia
+								td Proyecto
+								td Zona
+								td ACK
+								td Uptime
+								td TPC
+								td Freq
+								td Caché L3
+								td 2.5s
+								td 60s
+								td 15m
+								td Máximo
+						tbody(id=index)
+							- var sTotal = {value: 0, color: ''};
+							- var mTotal = {value: 0, color: ''};
+							- var lTotal = {value: 0, color: ''};
+							- var maxTotal = {value: 0, color: ''};
+							each instance, nIndex in owner
+								- var current = owner[nIndex]; 
+								- var timestamp = Math.ceil((Date.now() - Number.parseInt(current.timestamp)) / 1000);
+								- var timestampPrefix = (timestamp === 1) ? ' segundo' : ' segundos';
+								- var currentUptime = new Date(Date.now() - Number.parseInt(current.uptime));
+								- var hoursPast = Math.round(((Date.now() - currentUptime)/(1000*60*60)%24));
+								- var hourPrefix = (hoursPast > 1 || hoursPast === 0) ? ' horas' : ' hora';
+								- var cache = Number.parseInt(current.sys.cache.slice(0, -1)) / 1024 + ' MB';
+								- sTotal.value += (current.hashrate.short !== 'n/a') ? current.hashrate.short : 0;
+								- sTotal.color = getColor(sTotal.value);
+								- mTotal.value += (current.hashrate.mid !== 'n/a') ? current.hashrate.mid : 0;
+								- mTotal.color = getColor(mTotal.value);
+								- lTotal.value += (current.hashrate.long !== 'n/a') ? current.hashrate.long : 0;
+								- lTotal.color = getColor(lTotal.value);
+								- maxTotal.value += (current.hashrate.highest !== 'n/a') ? current.hashrate.highest : 0;
+								- maxTotal.color = getColor(maxTotal.value);
+								tr(class="row" id=instance.instance)
+									td= instance.instance
+									td= instance.project
+									td= instance.zone
+									td(class="timer")
+										span #{timestamp}
+										span #{timestampPrefix}
+									td #{hoursPast} #{hourPrefix}
+									td= instance.sys.tpc
+									td= instance.sys.freq
+									td= cache
+									td(class=getColor(instance.hashrate.short)) #{instance.hashrate.short + ((instance.hashrate.short) !== 'n/a' ? ' H/s' : '')}
+									td(class=getColor(instance.hashrate.mid)) #{instance.hashrate.mid + ((instance.hashrate.mid) !== 'n/a' ? ' H/s' : '')}
+									td(class=getColor(instance.hashrate.long)) #{instance.hashrate.long + ((instance.hashrate.long) !== 'n/a' ? ' H/s' : '')}
+									td(class=getColor(instance.hashrate.highest)) #{instance.hashrate.highest + ((instance.hashrate.highest) !== 'n/a' ? ' H/s' : '')}
+						tfoot
+							- var footerId = 'total-' + index;
+							- var earningId = 'earning-' + index;
+							- var maxBalance = (earnings[index].maxBalance + earnings[index].maxPaid);
+							- var num = (earnings[index].maxBalance + earnings[index].maxPaid) - (earnings[index].minBalance + earnings[index].minPaid);
+							- var earning = num / 1000000000000;
+							tr(id=footerId)
+								td(colspan="1") Máquinas: #{owner.length} (#{owner.length * 8} cores)
+								td(title="Ganancia asociada a una wallet" colspan="5" class="earning")
+									span Minado hoy: 
+									span(id=earningId maxbalance=maxBalance) #{earning}
+									span  XMR
+								td(colspan="2" class="total-hr") Total
+								td(class=getColor(sTotal.value / owner.length)) #{sTotal.value + ((sTotal.value !== 'n/a') ? ' H/s' : '')}
+								td(class=getColor(mTotal.value / owner.length)) #{mTotal.value + ((mTotal.value !== 'n/a') ? ' H/s' : '')}
+								td(class=getColor(lTotal.value / owner.length)) #{lTotal.value + ((lTotal.value !== 'n/a') ? ' H/s' : '')}
+								td(class=getColor(maxTotal.value / owner.length)) #{maxTotal.value + ((maxTotal.value !== 'n/a') ? ' H/s' : '')}
+			div(class="spacer pure-u-2-24")

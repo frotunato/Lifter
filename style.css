@@ -1,0 +1,175 @@
+body {
+	font-family: monospace !important;
+	background: url(http://i.imgur.com/uMs84jt.jpg);
+}
+
+.nav-top {
+	margin: 0;
+	display: flow-root;
+}
+
+td.owner {
+	font-weight: bolder;
+	background: darkgrey;
+	font-size: 1.5em;
+	padding: 1px;
+	text-align: center;
+}
+
+pre.top {
+	margin:auto;
+	margin-bottom:30px;
+	background:rgb(218, 212, 176);
+	border-bottom-style:groove;
+	border-bottom-color:black;
+	color:crimson;
+	font-weight:bolder;
+}
+
+table.instances {
+	margin: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border-style: groove;
+	background: white;
+}
+
+.header-row {
+	font-weight: bolder;
+	text-align: center;
+}
+
+tfoot {
+	background-color: #e0e0e0;
+	font-weight: bolder;
+	border-top-style: groove;
+	border-top-width: 2px;
+}
+
+.total-hr {
+	text-align: right;
+	border-left-style: none !important;
+}
+
+.earning {
+    border-left-style: none !important;
+}
+
+.off {
+	background: darkgrey !important;
+}
+
+.verylow {
+	background: indianred !important;
+}
+
+.low {
+	background: orange !important;
+}
+
+.medium {
+	background: yellow !important;
+}
+
+.good {
+	background: limegreen !important;
+}
+
+.verygood {
+	background: cornflowerblue !important;
+}
+
+.excelent {
+	background: violet !important;
+}
+
+@-webkit-keyframes demo {
+    0% {
+        background-color: transparent;
+        opacity: 1;
+    }
+    10% {
+    	background-color: rgba(45, 119, 230, 0.9);
+	    border-color: #cbcbcb;
+
+    }
+    20% {
+    	background-color: rgba(45, 119, 230, 0.8);
+	    border-color: #cbcbcb;
+
+    }
+    30% {
+    	background-color: rgba(45, 119, 230, 0.7);
+	    border-color: #cbcbcb;
+
+    }
+    40% {
+    	background-color: rgba(45, 119, 230, 0.6);
+	    border-color: #cbcbcb;
+
+    }
+    50% {
+    	background-color: rgba(45, 119, 230, 0.5);
+	    border-color: #cbcbcb;
+
+    }
+    60% {
+    	background-color: rgba(45, 119, 230, 0.4);
+	    border-color: #cbcbcb;
+
+    }
+    70% {
+    	background-color: rgba(45, 119, 230, 0.3);
+    	border-color: #cbcbcb;
+
+    }
+    80% {
+    	background-color: rgba(45, 119, 230, 0.2);
+    	border-color: #cbcbcb;
+
+    }
+    85% {
+    	background-color: rgba(45, 119, 230, 0.1);
+        border-color: #cbcbcb;
+    }
+    100% {
+    	background-color: inherit;
+        border-color: #cbcbcb;
+    }
+}
+    
+tr[active] > td {
+	 border-color: #cbcbcb;
+	border-style: outline;
+	border-color: cornflowerblue;
+  -webkit-animation-name: demo;
+    -webkit-animation-duration: 2300ms;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+  -moz-animation-name: demo;
+    -moz-animation-duration: 2300ms;
+    -moz-animation-iteration-count: 1;
+    -moz-animation-timing-function: linear;
+}
+
+td[hashrate] {
+   -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: rgba(0, 0, 0, 0.65);
+	color: rgba(0, 0, 0, 0.67);
+}
+
+@-webkit-keyframes pulse {
+  from { background-color: #630030; -webkit-box-shadow: 0 0 9px #333; }
+  50% { background-color: violet ; -webkit-box-shadow: 0 0 4px #a9014b; }
+  to { background-color: #630030; -webkit-box-shadow: 0 0 2px #333; }
+}
+
+td[pole] {
+  -webkit-animation-name: pulse;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+}
+
+.pure-g [class*=pure-u] {
+    font-family: monospace;
+}
