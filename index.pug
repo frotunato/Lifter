@@ -1,0 +1,118 @@
+html
+	head
+		title spaghetti code edition
+		link(rel="shortcut icon" type="image/png" href="/fav/favicon.png")
+		link(rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous")
+		link(href='/style.css', rel='stylesheet')
+		script(src="c3.min.js")
+		script(src="/socket.io/socket.io.js")
+		script(src="/check.js")
+	body(class="")
+		div(class="pure-u-2-24")
+		div(class="pure-u-20-24")
+			div(class="pure-g")
+				a(href="/chart" class="pure-u-21-24 pure-button pure-button-primary nav-top") Gráficos
+				button(class="pure-u-3-24 pure-button button-success nav-top" onclick="addOwner()") Nuevo propietario
+			- var getColor=function(e){var o="";return"n/a"===e||0===e?o="off":e<200?o="verylow":e>=200&&e<300?o="low":e>=300&&e<400?o="medium":e>=400&&e<450?o="good":e>=450&&e<500?o="verygood":e>=500&&e<550?o="excelent":e>=550&&(o="extreme"),o};
+			- var getEstimate=function(numInstances){var credit=300;var costPerHour=0.06;var endDate=Date.now()+Math.ceil(3600000*(credit/(costPerHour*numInstances)));return new Date(endDate)};
+			each owner, index in cache
+				- var ownerDate = new Date(ownersInfo[index].date);
+				- var ownerDateStr = ownerDate.getDate() + '/' + (ownerDate.getMonth() + 1) + '/' + ownerDate.getFullYear();
+				- var numInstances = Object.keys(owner).length;
+				- var endDate = getEstimate(numInstances);
+				- var endDateStr = endDate.getDate() + '/' + (endDate.getMonth() + 1) + '/' + endDate.getFullYear();
+				- var diffDays = Math.round((endDate.getTime() - Date.now()) / (1000*60*60*24));
+				div
+					table(class="instances pure-table pure-table-bordered")
+						thead
+							tr
+								td(colspan="8" class="owner").
+									#{index}
+								td(colspan="2" class="ownerDate") Inicio #{ownerDateStr}
+								td(colspan="2" class="ownerDate") Fin #{endDateStr}
+								td(colspan="2" class="ownerDate") Faltan #{diffDays} días
+							tr(class="header-row")
+								td(colspan="6") INFORMACION
+								td(colspan="4") SISTEMA
+								td(colspan="4") HASHRATE
+							tr(class="header-row")
+								td Instancia
+								td Proyecto
+								td Zona
+								td ACK
+								td Strikes
+								td Tries
+								td Uptime
+								td TPC
+								td Freq
+								td Caché L3
+								td 2.5s
+								td 60s
+								td 15m
+								td Máximo
+						tbody(id=index)
+							- var sTotal = {value: 0, color: ''};
+							- var mTotal = {value: 0, color: ''};
+							- var lTotal = {value: 0, color: ''};
+							- var maxTotal = {value: 0, color: ''};
+							each instance, nIndex in owner
+								- var current = owner[nIndex]; 
+								- var timestamp = Math.ceil((Date.now() - Number.parseInt(current.timestamp)) / 1000);
+								- var timestampPrefix = (timestamp === 1) ? ' segundo' : ' segundos';
+								- var currentUptime = new Date(Date.now() - Number.parseInt(current.uptime));
+								- var hoursPast = Math.round(((Date.now() - currentUptime)/(1000*60*60)%24));
+								- var hourPrefix = (hoursPast > 1 || hoursPast === 0) ? ' horas' : ' hora';
+								- var cache = Number.parseInt(current.sys.cache.slice(0, -1)) / 1024 + ' MB';
+								- var strikes = current.strikes;
+								- var tries = current.tries;
+								- sTotal.value += (current.hashrate.short !== 'n/a') ? current.hashrate.short : 0;
+								- sTotal.color = getColor(sTotal.value);
+								- mTotal.value += (current.hashrate.mid !== 'n/a') ? current.hashrate.mid : 0;
+								- mTotal.color = getColor(mTotal.value);
+								- lTotal.value += (current.hashrate.long !== 'n/a') ? current.hashrate.long : 0;
+								- lTotal.color = getColor(lTotal.value);
+								- maxTotal.value += (current.hashrate.highest !== 'n/a') ? current.hashrate.highest : 0;
+								- maxTotal.color = getColor(maxTotal.value);
+								tr(class="row" id=instance.instance)
+									td= instance.instance
+									td= instance.project
+									td= instance.zone
+									td(class="timer")
+										span #{timestamp}
+										span #{timestampPrefix}
+									td
+										span #{strikes}
+										span /15
+									td
+										span #{tries}
+										span /5
+									td #{hoursPast} #{hourPrefix}
+									td= instance.sys.tpc
+									td= instance.sys.freq
+									td= cache
+									td(class=getColor(instance.hashrate.short)) #{instance.hashrate.short + ((instance.hashrate.short) !== 'n/a' ? ' H/s' : '')}
+									td(class=getColor(instance.hashrate.mid)) #{instance.hashrate.mid + ((instance.hashrate.mid) !== 'n/a' ? ' H/s' : '')}
+									td(class=getColor(instance.hashrate.long)) #{instance.hashrate.long + ((instance.hashrate.long) !== 'n/a' ? ' H/s' : '')}
+									td(class=getColor(instance.hashrate.highest)) #{instance.hashrate.highest + ((instance.hashrate.highest) !== 'n/a' ? ' H/s' : '')}
+						tfoot
+							- var footerId = 'total-' + index;
+							- var cMaxBalance = (earnings[index] && earnings[index].maxBalance) ? earnings[index].maxBalance : 0;
+							- var cMaxPaid = (earnings[index] && earnings[index].maxPaid) ? earnings[index].maxPaid : 0;
+							- var cMinPaid = (earnings[index] && earnings[index].minPaid) ? earnings[index].minPaid : 0;
+							- var cMinBalance = (earnings[index] && earnings[index].minBalance) ? earnings[index].minBalance : 0;
+							- var earningId = 'earning-' + index;
+							- var maxBalance = (cMaxBalance +cMaxPaid);
+							- var num = (cMaxBalance + cMaxPaid) - (cMinBalance + cMinPaid);
+							- var earning = num / 1000000000000;
+							tr(id=footerId)
+								td(colspan="1") Máquinas: #{owner.length} (#{owner.length * 8} cores)
+								td(title="Ganancia asociada a una wallet" colspan="7" class="earning")
+									span Minado hoy: 
+									span(id=earningId maxbalance=maxBalance) #{earning}
+									span  XMR
+								td(colspan="2" class="total-hr") Total
+								td(class=getColor(sTotal.value / owner.length)) #{sTotal.value + ((sTotal.value !== 'n/a') ? ' H/s' : '')}
+								td(class=getColor(mTotal.value / owner.length)) #{mTotal.value + ((mTotal.value !== 'n/a') ? ' H/s' : '')}
+								td(class=getColor(lTotal.value / owner.length)) #{lTotal.value + ((lTotal.value !== 'n/a') ? ' H/s' : '')}
+								td(class=getColor(maxTotal.value / owner.length)) #{maxTotal.value + ((maxTotal.value !== 'n/a') ? ' H/s' : '')}
+			div(class="spacer pure-u-2-24")

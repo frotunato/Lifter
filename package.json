@@ -12,6 +12,11 @@
 	"dependencies": {
 		"express": "latest",
 		"body-parser": "latest",
-		"compression": "latest"
+		"compression": "latest",
+		"pug": "latest",
+		"sqlite3": "latest",
+		"async": "latest",
+		"log": "latest",
+		"socket.io": "latest"
 	}
 }
