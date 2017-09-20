@@ -1,6 +1,10 @@
 html
 	head
+<<<<<<< HEAD
 		title spaghetti code edition
+=======
+		title dis gon b gud
+>>>>>>> origin/master
 		link(rel="shortcut icon" type="image/png" href="/fav/favicon.png")
 		link(rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous")
 		link(href='/style.css', rel='stylesheet')
@@ -12,6 +16,7 @@ html
 		div(class="pure-u-20-24")
 			div(class="pure-g")
 				a(href="/chart" class="pure-u-21-24 pure-button pure-button-primary nav-top") Gráficos
+<<<<<<< HEAD
 				button(class="pure-u-3-24 pure-button button-success nav-top" onclick="addOwner()") Nuevo propietario
 			- var getColor=function(e){var o="";return"n/a"===e||0===e?o="off":e<200?o="verylow":e>=200&&e<300?o="low":e>=300&&e<400?o="medium":e>=400&&e<450?o="good":e>=450&&e<500?o="verygood":e>=500&&e<550?o="excelent":e>=550&&(o="extreme"),o};
 			- var getEstimate=function(numInstances){var credit=300;var costPerHour=0.06;var endDate=Date.now()+Math.ceil(3600000*(credit/(costPerHour*numInstances)));return new Date(endDate)};
@@ -22,10 +27,17 @@ html
 				- var endDate = getEstimate(numInstances);
 				- var endDateStr = endDate.getDate() + '/' + (endDate.getMonth() + 1) + '/' + endDate.getFullYear();
 				- var diffDays = Math.round((endDate.getTime() - Date.now()) / (1000*60*60*24));
+=======
+				input(id="newOwner" type="text" placeholder="Nuevo propietario" class="pure-u-2-24 nav-top")
+				button(class="pure-u-1-24 nav-top" onclick="addOwner()") Añadir
+			- var getColor = function(o){var e="";return"n/a"===o||0===o?e="off":o<200?e="verylow":o>=200&&o<300?e="low":o>=300&&o<400?e="medium":o>=400&&o<450?e="good":o>=450&&o<500?e="verygood":o>=500&&(e="excelent"),e};
+			each owner, index in cache
+>>>>>>> origin/master
 				div
 					table(class="instances pure-table pure-table-bordered")
 						thead
 							tr
+<<<<<<< HEAD
 								td(colspan="8" class="owner").
 									#{index}
 								td(colspan="2" class="ownerDate") Inicio #{ownerDateStr}
@@ -33,6 +45,12 @@ html
 								td(colspan="2" class="ownerDate") Faltan #{diffDays} días
 							tr(class="header-row")
 								td(colspan="6") INFORMACION
+=======
+								td(colspan="12" class="owner").
+									#{index}
+							tr(class="header-row")
+								td(colspan="4") INFORMACION
+>>>>>>> origin/master
 								td(colspan="4") SISTEMA
 								td(colspan="4") HASHRATE
 							tr(class="header-row")
@@ -40,8 +58,11 @@ html
 								td Proyecto
 								td Zona
 								td ACK
+<<<<<<< HEAD
 								td Strikes
 								td Tries
+=======
+>>>>>>> origin/master
 								td Uptime
 								td TPC
 								td Freq
@@ -63,8 +84,11 @@ html
 								- var hoursPast = Math.round(((Date.now() - currentUptime)/(1000*60*60)%24));
 								- var hourPrefix = (hoursPast > 1 || hoursPast === 0) ? ' horas' : ' hora';
 								- var cache = Number.parseInt(current.sys.cache.slice(0, -1)) / 1024 + ' MB';
+<<<<<<< HEAD
 								- var strikes = current.strikes;
 								- var tries = current.tries;
+=======
+>>>>>>> origin/master
 								- sTotal.value += (current.hashrate.short !== 'n/a') ? current.hashrate.short : 0;
 								- sTotal.color = getColor(sTotal.value);
 								- mTotal.value += (current.hashrate.mid !== 'n/a') ? current.hashrate.mid : 0;
@@ -80,12 +104,15 @@ html
 									td(class="timer")
 										span #{timestamp}
 										span #{timestampPrefix}
+<<<<<<< HEAD
 									td
 										span #{strikes}
 										span /15
 									td
 										span #{tries}
 										span /5
+=======
+>>>>>>> origin/master
 									td #{hoursPast} #{hourPrefix}
 									td= instance.sys.tpc
 									td= instance.sys.freq
@@ -96,6 +123,7 @@ html
 									td(class=getColor(instance.hashrate.highest)) #{instance.hashrate.highest + ((instance.hashrate.highest) !== 'n/a' ? ' H/s' : '')}
 						tfoot
 							- var footerId = 'total-' + index;
+<<<<<<< HEAD
 							- var cMaxBalance = (earnings[index] && earnings[index].maxBalance) ? earnings[index].maxBalance : 0;
 							- var cMaxPaid = (earnings[index] && earnings[index].maxPaid) ? earnings[index].maxPaid : 0;
 							- var cMinPaid = (earnings[index] && earnings[index].minPaid) ? earnings[index].minPaid : 0;
@@ -107,6 +135,15 @@ html
 							tr(id=footerId)
 								td(colspan="1") Máquinas: #{owner.length} (#{owner.length * 8} cores)
 								td(title="Ganancia asociada a una wallet" colspan="7" class="earning")
+=======
+							- var earningId = 'earning-' + index;
+							- var maxBalance = (earnings[index].maxBalance + earnings[index].maxPaid);
+							- var num = (earnings[index].maxBalance + earnings[index].maxPaid) - (earnings[index].minBalance + earnings[index].minPaid);
+							- var earning = num / 1000000000000;
+							tr(id=footerId)
+								td(colspan="1") Máquinas: #{owner.length} (#{owner.length * 8} cores)
+								td(title="Ganancia asociada a una wallet" colspan="5" class="earning")
+>>>>>>> origin/master
 									span Minado hoy: 
 									span(id=earningId maxbalance=maxBalance) #{earning}
 									span  XMR

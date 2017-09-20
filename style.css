@@ -3,10 +3,13 @@ body {
 	background: url(http://i.imgur.com/uMs84jt.jpg);
 }
 
+<<<<<<< HEAD
 .button-success {
     background: rgb(28, 184, 65);
 }
 
+=======
+>>>>>>> origin/master
 .nav-top {
 	margin: 0;
 	display: flow-root;
@@ -20,6 +23,7 @@ td.owner {
 	text-align: center;
 }
 
+<<<<<<< HEAD
 
 td.ownerDate {
     font-weight: bolder;
@@ -28,6 +32,8 @@ td.ownerDate {
     text-align: center;
 }
 
+=======
+>>>>>>> origin/master
 pre.top {
 	margin:auto;
 	margin-bottom:30px;
@@ -95,10 +101,13 @@ tfoot {
 	background: violet !important;
 }
 
+<<<<<<< HEAD
 .extreme {
     background: #f700f7 !important;
 }
 
+=======
+>>>>>>> origin/master
 @-webkit-keyframes demo {
     0% {
         background-color: transparent;
@@ -188,6 +197,7 @@ td[pole] {
 
 .pure-g [class*=pure-u] {
     font-family: monospace;
+<<<<<<< HEAD
 }
 
 td[restarting] {
@@ -195,4 +205,6 @@ td[restarting] {
     -webkit-animation-name: pulse;
     -webkit-animation-duration: 2s;
     -webkit-animation-iteration-count: infinite;
+=======
+>>>>>>> origin/master
 }

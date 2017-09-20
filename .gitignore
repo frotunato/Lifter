@@ -1,3 +1,19 @@
+node_modules
+public
+temp
+game
+*.tmp
+client/bower_components
+dist
+secret.json
+*.dmp
+*.log
+*.pem
+*.tar
+*.gz
+*.jar
+*.db
+preview
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

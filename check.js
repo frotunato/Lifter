@@ -12,6 +12,7 @@ function callAjax (url, callback) {
 }
 
 function addOwner () {
+<<<<<<< HEAD
 	if (confirm('¿Tienes el código de autentificación?. Si no lo lo tienes dale a cancelar y se abrirá una pestaña, logueate y copia el código')) {
 		if (confirm('Me comprometo a no cagarla. El propietario NO puede contener GUIONES O PUNTOS ni ser una cuenta de hotmail')) {
 			if (confirm('¿Seguro?. Se donde vives')) {
@@ -69,6 +70,36 @@ function addOwner () {
 	//} else {
 	//	window.alert('Go home');
 	//}
+=======
+	var ownerInput = document.getElementById('newOwner');
+	if (!ownerInput.value) return;
+	if (ownerInput.value.indexOf('-') !== -1) return window.alert('Un propietario con guión NO ES VALIDO');
+	var conf = confirm('Me comprometo a no cagarla');
+	if (conf) {
+		var conf2 = confirm('De verdad');
+		if (conf2) {
+			confirm('De la buena');
+			var conf3 = confirm('¿Seguro?');
+			if (conf3) {
+				window.alert('allé voy');
+				callAjax('/owners/' + ownerInput.value, function (data) {
+					data = JSON.parse(data);
+					if (!data.err) {
+						window.alert('Propietario añadido correctamente!');
+					} else {
+						window.alert('La cagaste: ' + data.err);
+					}
+				});
+			} else {
+				window.alert('la paraste de pechito');
+			}
+		} else {
+			window.alert('oleme el dedo');
+		}
+	} else {
+		window.alert('Go home');
+	}
+>>>>>>> origin/master
 }
 
 window.onload = function () {
@@ -79,6 +110,7 @@ var lists = document.getElementsByTagName("TBODY");
 setInterval(function () {
 	for (var i = timers.length - 1; i >= 0; i--) {
 		var element = timers[i];
+<<<<<<< HEAD
 		var value = Number.parseInt(element.firstElementChild.textContent);
 		element.firstElementChild.textContent = value + 1;
 		element.lastElementChild.textContent = (value === 1) ? ' segundo' : ' segundos';
@@ -87,6 +119,10 @@ setInterval(function () {
 		} else {
 			timers[i].parentNode.removeAttribute('restarting');
 		}
+=======
+		element.firstElementChild.textContent = Number.parseInt(element.firstElementChild.textContent) + 1;
+		element.lastElementChild.textContent = (element.firstElementChild.textContent === 1) ? ' segundo' : ' segundos';
+>>>>>>> origin/master
 		//console.log(timers[i].textContent.split(' ')[0]);
 	}
 }, 1000);
@@ -105,10 +141,15 @@ var getColor = function (value) {
 		res = 'good';
 	} else if (value >= 450 && value < 500) {
 		res = 'verygood';
+<<<<<<< HEAD
 	} else if (value >= 500 && value < 549) {
 		res = 'excelent';
 	} else if (value >= 550) {
 		res = 'extreme';
+=======
+	} else if (value >= 500) {
+		res = 'excelent';
+>>>>>>> origin/master
 	}
 	return res;
 }
@@ -157,6 +198,7 @@ socket.on('some event', function (data) {
 	var hoursPast = Math.round(((Date.now() - currentUptime)/(1000*60*60)%24));
 	var hourPrefix = (hoursPast > 1 || hoursPast === 0) ? ' horas' : ' hora';
 	var timestampCell = cells[3];
+<<<<<<< HEAD
 	var strikesCell = cells[4];
 	var triesCell = cells[5];
 	timestampCell.firstElementChild.textContent = Math.ceil((Date.now() - Number.parseInt(data.timestamp)) / 1000);
@@ -169,6 +211,17 @@ socket.on('some event', function (data) {
 	
 	cells[2].textContent = data.zone;
 	cells[6].textContent = hoursPast + ' ' + hourPrefix;//4
+=======
+
+	timestampCell.firstElementChild.textContent = Math.ceil((Date.now() - Number.parseInt(data.timestamp)) / 1000);
+	timestampCell.lastElementChild.textContent = (timestampCell.firstElementChild.textContent === 1) ? ' segundo' : ' segundos';
+
+	var hashIndex = 8;
+	var footerIndex = 3;
+	
+	cells[2].textContent = data.zone;
+	cells[4].textContent = hoursPast + ' ' + hourPrefix;
+>>>>>>> origin/master
 	
 	for (hash in data.hashrate) {
 		var color = getColor(data.hashrate[hash]);
@@ -191,7 +244,11 @@ socket.on('some event', function (data) {
 		hashIndex++;
 		footerIndex++;
 	}
+<<<<<<< HEAD
 	hashIndex = 10;
+=======
+	hashIndex = 8;
+>>>>>>> origin/master
 	footerIndex = 3;
 	setTimeout(function () {
 		row.removeAttribute('active');
