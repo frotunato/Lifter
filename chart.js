@@ -17,6 +17,7 @@ function addInstance (obj, myArray){
 
 }
 var charts = 0;
+console.log(async);
 
 window.onload = function () {
 	(function callAjax(url, callback){
